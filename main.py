@@ -8,6 +8,8 @@ from PyPDF2 import PdfMerger
 
 problem_numbers = [
   # 여기에 문제 번호를 입력하세요.
+  1000,
+  1001,
 ]
 
 headers = {
