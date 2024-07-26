@@ -59,12 +59,16 @@ class BojToPdf:
 
         return str(soup)
 
-    def save_html_to_file(self, html, output_path):
+    async def save_html_to_file(self, html, output_path):
         temp_html_path = output_path.replace('.pdf', '.html')
-        with open(temp_html_path, 'w', encoding='utf-8') as file:
-            file.write(html)
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, self._write_file, temp_html_path, html)
         print(f"Saved cleaned HTML to {temp_html_path}")
         return temp_html_path
+
+    def _write_file(self, temp_html_path, html):
+        with open(temp_html_path, 'w', encoding='utf-8') as file:
+            file.write(html)
 
     def convert_html_to_pdf(self, temp_html_path, output_path):
         path_to_font = os.path.abspath('./fonts')
@@ -83,9 +87,6 @@ class BojToPdf:
           h1, h2, h3, h4, h5, p, div, span, text, pre, code, kbd, samp {{
             font-family: 'Noto Sans', monospace;
           }}
-          table, th, td {{
-            max-width: 100%;
-          }} 
         ''')
         # HTML을 PDF로 변환
         HTML(temp_html_path).write_pdf(output_path, stylesheets=[css])
@@ -112,7 +113,7 @@ class BojToPdf:
             for problem_number, html in zip(self.problem_numbers, html_contents):
                 if html is not None:
                     output_pdf_path = f"./outputs/{problem_number}.pdf"
-                    temp_html_path = self.save_html_to_file(html, output_pdf_path)
+                    temp_html_path = await self.save_html_to_file(html, output_pdf_path)
                     temp_html_paths.append((temp_html_path, output_pdf_path))
             
             # PDF 변환 작업
