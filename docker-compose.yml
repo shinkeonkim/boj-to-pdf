@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  boj-pdf-api:
+    build: .
+    container_name: boj-pdf-api
+    ports:
+      - "8333:8000"
+    volumes:
+      - ./app:/app
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+    networks:
+        - default
+        - shared_network
+
+networks:
+  shared_network:
+    external: true

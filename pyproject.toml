@@ -1,0 +1,19 @@
+[project]
+name = "boj-to-pdf"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "fastapi>=0.115.12",
+    "pydantic>=2.11.4",
+    "pypdf2>=3.0.1",
+    "python-multipart>=0.0.20",
+    "requests>=2.32.3",
+    "sqlalchemy>=2.0.40",
+    "uuid>=1.30",
+    "uvicorn>=0.34.2",
+    "watchfiles>=1.0.5",
+    "weasyprint>=65.1",
+]
